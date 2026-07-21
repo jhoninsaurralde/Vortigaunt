@@ -1,0 +1,17 @@
+# Logs
+*.log
+
+# Temporales
+*.tmp
+*.swp
+*~
+
+# Backups generados
+backups/
+
+# Datos locales del nodo
+memory/
+reports/
+
+# Archivos del sistema
+.DS_Store
