@@ -1,6 +1,15 @@
 #!/bin/bash
 
-BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+CONFIG="/etc/vortigaunt/vortigaunt.conf"
+
+if [ -f "$CONFIG" ]; then
+    source "$CONFIG"
+else
+    echo "Configuración no encontrada"
+    exit 1
+fi
+
+BASE="$VORTIGAUNT_HOME"
 BACKUP="$BASE/backups"
 MEM="$BASE/memory"
 
