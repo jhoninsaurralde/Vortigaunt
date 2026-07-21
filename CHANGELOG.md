@@ -51,3 +51,8 @@ Internal development phase:
 - Added automated backup workflow.
 - Tested reboot persistence.
 - Verified RAID1 operation.
+
+## Documentation
+
+- Added CHANGELOG.md
+- Improved project documentation
