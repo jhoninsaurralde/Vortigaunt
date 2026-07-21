@@ -59,15 +59,16 @@ Example:
 Vortigaunt maintains a simple memory structure.
 
 
+```text
 memory/
 
 ├── events.log
 ├── experiences.log
 ├── milestones.log
 └── system/
-├── current/
-└── history/
-
+    ├── current/
+    └── history/
+```
 
 ## Events
 
@@ -137,13 +138,14 @@ Backups store:
 Structure:
 
 
+```text
 backups/
 
 ├── archive/
-│ └── vortigaunt-date/
+│   └── vortigaunt-date/
 │
 └── latest/
-
+```
 
 Backups can be executed manually or automatically.
 
