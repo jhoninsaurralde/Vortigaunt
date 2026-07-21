@@ -1,0 +1,28 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+FILE="$BASE/memory/milestones.log"
+
+if [ $# -eq 0 ]; then
+    echo "Uso: vortigaunt-milestone <evento>"
+    exit 1
+fi
+
+EVENTO="$*"
+
+# Comprobar si el hito ya existe
+if grep -q "HITO: $EVENTO" "$FILE"; then
+    echo "El hito ya existe."
+    exit 0
+fi
+
+echo "" >> "$FILE"
+echo "$(date '+%Y-%m-%d %H:%M:%S')" >> "$FILE"
+echo "HITO: $EVENTO" >> "$FILE"
+echo "----------------------------" >> "$FILE"
+
+if [ $? -eq 0 ]; then
+    echo "Hito registrado."
+else
+    echo "Error guardando hito."
+fi

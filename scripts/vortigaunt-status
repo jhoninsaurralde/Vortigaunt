@@ -1,0 +1,80 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+
+echo "=========================="
+echo "     VORTIGAUNT STATUS"
+echo "=========================="
+echo
+
+echo "Sistema:"
+hostname
+uptime -p
+
+echo
+
+echo "Hardware:"
+lscpu | grep "Model name"
+
+echo
+
+echo "Memoria:"
+free -h | grep Mem:
+
+echo
+
+echo "Temperatura:"
+sensors | grep "Package id"
+
+echo
+
+echo "Almacenamiento:"
+if grep -q "\[UU\]" /proc/mdstat; then
+    echo " RAID1: OK"
+else
+    echo " RAID1: ERROR"
+fi
+
+echo
+df -h /mnt/raid | awk 'NR==2 {print "Libre RAID:",$4}'
+
+echo
+
+echo "Último evento:"
+tail -1 "$BASE/memory/events.log"
+
+echo
+
+echo "Último reporte:"
+ls -t "$BASE/reports" | head -1
+
+echo
+
+echo "Memoria Vortigaunt:"
+
+if [ -d "$BASE/memory" ]; then
+    echo " OK - Memoria persistente"
+else
+    echo " ERROR - Memoria no encontrada"
+fi
+
+echo
+
+echo "Experiencias:"
+if [ -f "$BASE/memory/experiences.log" ]; then
+    grep -c "Experiencia:" "$BASE/memory/experiences.log" | awk '{print " ",$1,"registradas"}'
+else
+    echo " 0"
+fi
+
+echo
+
+echo "Hitos:"
+if [ -f "$BASE/memory/milestones.log" ]; then
+    grep -c "2026-" "$BASE/memory/milestones.log" | awk '{print " ",$1,"registrados"}'
+else
+    echo " 0"
+fi
+echo "=========================="
+echo " VORTIGAUNT ONLINE"
+echo "=========================="

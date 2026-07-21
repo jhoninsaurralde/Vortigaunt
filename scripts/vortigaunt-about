@@ -1,0 +1,16 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+FILE="$BASE/database/identity.md"
+
+echo "=========================="
+echo "     VORTIGAUNT ABOUT"
+echo "=========================="
+echo
+
+cat "$FILE"
+
+echo
+echo "=========================="
+echo " VORTIGAUNT ONLINE"
+echo "=========================="

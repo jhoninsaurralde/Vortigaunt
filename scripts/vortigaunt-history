@@ -1,0 +1,30 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}/memory"
+
+echo "=========================="
+echo "   VORTIGAUNT TIMELINE"
+echo "=========================="
+echo
+
+echo "HITOS:"
+echo
+
+cat "$BASE/milestones.log"
+
+echo
+echo "EXPERIENCIAS:"
+echo
+
+cat "$BASE/experiences.log"
+
+echo
+echo "EVENTOS RECIENTES:"
+echo
+
+tail -10 "$BASE/events.log"
+
+echo
+echo "=========================="
+echo "    VORTIGAUNT ONLINE"
+echo "=========================="

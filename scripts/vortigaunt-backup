@@ -1,0 +1,81 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+BACKUP="$BASE/backups"
+MEM="$BASE/memory"
+
+DATE=$(date "+%Y-%m-%d_%H-%M-%S")
+
+echo "=========================="
+echo " VORTIGAUNT BACKUP"
+echo "=========================="
+echo
+
+# Verificar RAID
+
+if grep -q "\[UU\]" /proc/mdstat; then
+    RAID="OK"
+else
+    RAID="ERROR"
+fi
+
+echo "RAID: $RAID"
+
+if [ "$RAID" != "OK" ]; then
+    echo "Backup cancelado: RAID no saludable."
+    exit 1
+fi
+
+
+mkdir -p "$BACKUP"
+mkdir -p "$BACKUP/archive"
+mkdir -p "$BACKUP/latest"
+
+
+TARGET="$BACKUP/archive/vortigaunt-$DATE"
+
+
+mkdir -p "$TARGET"
+
+cp -r "$BASE/database" "$TARGET/"
+cp -r "$BASE/memory" "$TARGET/"
+
+
+# Actualizar latest
+
+rm -rf "$BACKUP/latest/*"
+
+cp -r "$BASE/database" "$BACKUP/latest/"
+cp -r "$BASE/memory" "$BACKUP/latest/"
+
+
+SIZE=$(du -sh "$TARGET" | awk '{print $1}')
+
+
+# Registrar memoria
+
+echo "$(date '+%Y-%m-%d %H:%M:%S') | BACKUP | OK | Tamaño:$SIZE" >> "$MEM/events.log"
+
+
+echo "" >> "$MEM/experiences.log"
+echo "$(date '+%Y-%m-%d %H:%M:%S')" >> "$MEM/experiences.log"
+echo "Experiencia: Backup completo realizado correctamente." >> "$MEM/experiences.log"
+echo "--------------------------------" >> "$MEM/experiences.log"
+
+
+echo
+echo "Backup creado:"
+echo "$TARGET"
+
+echo
+echo "Tamaño:"
+echo "$SIZE"
+
+echo
+echo "Fecha:"
+date
+
+echo
+echo "=========================="
+echo " BACKUP COMPLETE"
+echo "=========================="

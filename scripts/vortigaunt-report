@@ -1,0 +1,41 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+
+REPORT_DIR="$BASE/reports"
+MEMORY_DIR="$BASE/memory"
+
+mkdir -p "$REPORT_DIR"
+mkdir -p "$MEMORY_DIR"
+
+DATE=$(date "+%Y-%m-%d_%H-%M-%S")
+HUMAN_DATE=$(date "+%Y-%m-%d %H:%M:%S")
+
+REPORT="$REPORT_DIR/health-$DATE.log"
+EVENTS="$MEMORY_DIR/events.log"
+
+echo "Generando reporte Vortigaunt..."
+echo
+
+echo "=== VORTIGAUNT HEALTH REPORT ===" > "$REPORT"
+echo "Fecha: $(date)" >> "$REPORT"
+echo "" >> "$REPORT"
+
+vortigaunt-health >> "$REPORT"
+
+echo "Reporte guardado:"
+echo "$REPORT"
+
+
+# Crear evento resumido
+
+TEMP=$(sensors | grep "Package id 0" | awk '{print $4}')
+RAM=$(free | awk '/Mem:/ {printf "%.1f%%", $3/$2*100}')
+
+if grep -q "\[UU\]" /proc/mdstat; then
+    RAID="OK"
+else
+    RAID="ERROR"
+fi
+
+echo "$HUMAN_DATE | CPU:$TEMP | RAM:$RAM | RAID:$RAID" >> "$EVENTS"

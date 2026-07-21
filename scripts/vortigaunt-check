@@ -1,0 +1,59 @@
+#!/bin/bash
+
+BASE="${VORTIGAUNT_BASE:-/opt/vortigaunt}"
+
+echo "=========================="
+echo "   VORTIGAUNT CHECK"
+echo "=========================="
+echo
+
+echo "Memoria:"
+if [ -d "$BASE/memory" ]; then
+    echo " OK - Memoria presente"
+else
+    echo " ERROR - Memoria perdida"
+fi
+
+echo
+
+echo "Base de datos:"
+if [ -d "$BASE/database" ]; then
+    echo " OK - Base presente"
+else
+    echo " ERROR - Base perdida"
+fi
+
+echo
+
+echo "Reportes:"
+COUNT=$(ls "$BASE/reports" 2>/dev/null | wc -l)
+
+echo " $COUNT reportes encontrados"
+
+echo
+
+echo "Experiencias:"
+if [ -f "$BASE/memory/experiences.log" ]; then
+    echo " OK - Experiencias disponibles"
+else
+    echo " ERROR - Sin experiencias"
+fi
+
+echo
+
+echo "Hitos:"
+if [ -f "$BASE/memory/milestones.log" ]; then
+    echo " OK - Hitos disponibles"
+else
+    echo " ERROR - Sin hitos"
+fi
+
+echo
+
+echo "RAID:"
+cat /proc/mdstat | grep md0
+
+echo
+echo "=========================="
+echo " VORTIGAUNT CHECK COMPLETE"
+echo "=========================="
