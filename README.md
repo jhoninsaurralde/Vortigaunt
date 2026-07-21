@@ -1,5 +1,9 @@
 # Vortigaunt Homelab
 
+![License](https://img.shields.io/badge/license-MIT-green)
+![Version](https://img.shields.io/badge/version-v0.1.0-blue)
+![Platform](https://img.shields.io/badge/platform-Linux-orange)
+
 Sistema personal de monitoreo, registro y memoria persistente
 para un nodo Linux doméstico.
 
