@@ -1,0 +1,6 @@
+[Unit]
+Description=Vortigaunt System Monitor
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/vortigaunt-monitor

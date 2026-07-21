@@ -1,0 +1,10 @@
+[Unit]
+Description=Vortigaunt Boot Memory
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/vortigaunt-boot
+
+[Install]
+WantedBy=multi-user.target
